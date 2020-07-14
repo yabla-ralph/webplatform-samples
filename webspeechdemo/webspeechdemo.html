@@ -126,6 +126,7 @@
       (See chrome://settings/handlers to change.)
     </div>
   </div>
+<div id="trace"></div>
   <p>
   <div id="div_language">
     <select id="select_language" onchange="updateCountry()"></select>
@@ -281,12 +282,14 @@ if (!('webkitSpeechRecognition' in window)) {
   };
 
   recognition.onresult = function(event) {
+	console.log(event.results);
+	//trace.innerHTML=JSON.stringify(event.results,null,3);
     var interim_transcript = '';
     for (var i = event.resultIndex; i < event.results.length; ++i) {
       if (event.results[i].isFinal) {
-        final_transcript += event.results[i][0].transcript;
+        final_transcript += event.results[i][0].transcript + ' (' +  event.results[i][0].confidence + ')';
       } else {
-        interim_transcript += event.results[i][0].transcript;
+        interim_transcript += event.results[i][0].transcript + ' (' +  event.results[i][0].confidence + ')';
       }
     }
     final_transcript = capitalize(final_transcript);
